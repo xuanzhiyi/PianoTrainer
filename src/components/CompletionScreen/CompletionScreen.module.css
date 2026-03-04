@@ -53,10 +53,11 @@
   gap: 12px;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 0.95rem;
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 1rem;
   color: #e8d8b8;
+  min-height: 56px;
 }
 
 .checkmark {
@@ -71,9 +72,10 @@
   background: #c8a96e;
   color: #1a1410;
   border: none;
-  border-radius: 10px;
-  padding: 14px 0;
-  font-size: 1.05rem;
+  border-radius: 12px;
+  padding: 0;
+  min-height: 58px;
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   letter-spacing: 0.03em;

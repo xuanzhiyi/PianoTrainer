@@ -52,9 +52,10 @@
   background: rgba(200, 169, 110, 0.1);
   border: 1px solid rgba(200, 169, 110, 0.35);
   color: #c8a96e;
-  border-radius: 8px;
-  padding: 10px 0;
-  font-size: 0.9rem;
+  border-radius: 10px;
+  padding: 0;
+  min-height: 52px;
+  font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
@@ -70,9 +71,10 @@
   background: #c8a96e;
   color: #1a1410;
   border: none;
-  border-radius: 10px;
-  padding: 14px 0;
-  font-size: 1.05rem;
+  border-radius: 12px;
+  padding: 0;
+  min-height: 58px;
+  font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
   letter-spacing: 0.03em;
