@@ -3,7 +3,7 @@
   align-items: center;
   gap: 12px;
   padding: 10px 16px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(44, 62, 80, 0.06);
   border-radius: 8px;
 }
 
@@ -17,12 +17,12 @@
 .bar {
   width: 5px;
   border-radius: 2px;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(44, 62, 80, 0.15);
   transition: background 0.1s ease, opacity 0.1s ease;
 }
 
 .barActive {
-  background: #c8a96e;
+  background: #F4A582;
 }
 
 .label {
@@ -33,13 +33,13 @@
 }
 
 .playing {
-  color: #7ecf8e;
+  color: #3a8a52;
 }
 
 .silent {
-  color: rgba(255, 255, 255, 0.35);
+  color: rgba(44, 62, 80, 0.38);
 }
 
 .error {
-  color: #e07070;
+  color: #c0392b;
 }

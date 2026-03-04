@@ -16,13 +16,13 @@
 .title {
   font-size: 2rem;
   font-weight: 700;
-  color: #c8a96e;
+  color: #F4A582;
   margin: 0 0 6px;
   letter-spacing: -0.02em;
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.5);
+  color: #7A9FB7;
   margin: 0;
   font-size: 0.95rem;
 }
@@ -30,8 +30,8 @@
 .emptyState {
   text-align: center;
   padding: 32px 20px;
-  color: rgba(255, 255, 255, 0.3);
-  border: 2px dashed rgba(255, 255, 255, 0.1);
+  color: rgba(44, 62, 80, 0.4);
+  border: 2px dashed rgba(44, 62, 80, 0.15);
   border-radius: 10px;
   font-size: 0.9rem;
 }
@@ -49,9 +49,9 @@
 
 .addBtn {
   flex: 1;
-  background: rgba(200, 169, 110, 0.1);
-  border: 1px solid rgba(200, 169, 110, 0.35);
-  color: #c8a96e;
+  background: rgba(244, 165, 130, 0.1);
+  border: 1px solid rgba(244, 165, 130, 0.45);
+  color: #e07b50;
   border-radius: 10px;
   padding: 0;
   min-height: 52px;
@@ -62,14 +62,14 @@
 }
 
 .addBtn:hover {
-  background: rgba(200, 169, 110, 0.2);
-  border-color: #c8a96e;
+  background: rgba(244, 165, 130, 0.2);
+  border-color: #F4A582;
 }
 
 .startBtn {
   width: 100%;
-  background: #c8a96e;
-  color: #1a1410;
+  background: #F4A582;
+  color: #2C3E50;
   border: none;
   border-radius: 12px;
   padding: 0;
