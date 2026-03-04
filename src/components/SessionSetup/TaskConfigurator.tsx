@@ -24,9 +24,11 @@ export function TaskConfigurator({ task, index, onChange, onRemove }: TaskConfig
           <input
             className={styles.input}
             type="number"
+            inputMode="numeric"
             min={1}
             max={120}
             value={(task as ScalesTask).durationMinutes}
+            onFocus={(e) => e.target.select()}
             onChange={(e) =>
               onChange({ ...task, durationMinutes: Math.max(1, Number(e.target.value)) })
             }
@@ -61,9 +63,11 @@ export function TaskConfigurator({ task, index, onChange, onRemove }: TaskConfig
           <input
             className={styles.input}
             type="number"
+            inputMode="numeric"
             min={1}
             max={50}
             value={(task as PieceTask).rounds}
+            onFocus={(e) => e.target.select()}
             onChange={(e) =>
               onChange({ ...task, rounds: Math.max(1, Number(e.target.value)) })
             }
