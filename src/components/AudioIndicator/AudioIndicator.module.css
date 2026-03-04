@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 36px;
+}
+
+.bar {
+  width: 5px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.15);
+  transition: background 0.1s ease, opacity 0.1s ease;
+}
+
+.barActive {
+  background: #c8a96e;
+}
+
+.label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.playing {
+  color: #7ecf8e;
+}
+
+.silent {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.error {
+  color: #e07070;
+}
