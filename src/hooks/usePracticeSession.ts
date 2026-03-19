@@ -1,6 +1,11 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import type { PracticeTask, SessionSummary } from '../types'
 
+// How long the user must be silent before a piece round is counted complete
+const SILENCE_TO_COMPLETE_MS = 4000
+// Minimum continuous play time before silence can trigger a round completion
+const MIN_PLAY_MS = 2000
+
 interface UsePracticeSessionReturn {
   currentTask: PracticeTask | null
   currentIndex: number
@@ -8,6 +13,7 @@ interface UsePracticeSessionReturn {
   elapsedSeconds: number
   remainingSeconds: number
   currentRound: number
+  pendingRoundCompletion: boolean
   onAudioChanged: (isPlaying: boolean) => void
   skipTask: () => void
   isComplete: boolean
@@ -20,9 +26,11 @@ export function usePracticeSession(tasks: PracticeTask[]): UsePracticeSessionRet
   const [currentRound, setCurrentRound] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
   const [summary, setSummary] = useState<SessionSummary | null>(null)
+  const [pendingRoundCompletion, setPendingRoundCompletion] = useState(false)
 
   const isPlayingRef = useRef(false)
   const wasPlayingRef = useRef(false)
+  const playStartTimeRef = useRef<number | null>(null)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const silenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const currentIndexRef = useRef(currentIndex)
@@ -48,6 +56,7 @@ export function usePracticeSession(tasks: PracticeTask[]): UsePracticeSessionRet
       clearTimeout(silenceTimerRef.current)
       silenceTimerRef.current = null
     }
+    setPendingRoundCompletion(false)
     const nextIndex = currentIndexRef.current + 1
     if (nextIndex >= tasks.length) {
       setIsComplete(true)
@@ -96,21 +105,35 @@ export function usePracticeSession(tasks: PracticeTask[]): UsePracticeSessionRet
           stopScalesTimer()
         }
       } else if (task.type === 'piece') {
-        if (!isPlaying && wasPlayingRef.current) {
-          // User just stopped — wait 1 s of silence to confirm stop
-          if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
-          silenceTimerRef.current = setTimeout(() => {
-            // Still silent after 1 s: count as a completed round
-            const nextRound = currentRoundRef.current + 1
-            setCurrentRound(nextRound)
-            if (nextRound >= (tasks[currentIndexRef.current] as { rounds: number }).rounds) {
-              advanceTask()
-            }
-          }, 1000)
-        } else if (isPlaying && silenceTimerRef.current) {
-          // User started playing again before silence timer fired — cancel it
-          clearTimeout(silenceTimerRef.current)
-          silenceTimerRef.current = null
+        if (isPlaying) {
+          // Track when playing started (only set on fresh start, not continuation)
+          if (!wasPlayingRef.current) {
+            playStartTimeRef.current = Date.now()
+          }
+          // User resumed playing — cancel any pending round completion
+          if (silenceTimerRef.current) {
+            clearTimeout(silenceTimerRef.current)
+            silenceTimerRef.current = null
+            setPendingRoundCompletion(false)
+          }
+        } else if (!isPlaying && wasPlayingRef.current) {
+          // User just stopped — only start the silence timer if they played long enough
+          const playDuration = playStartTimeRef.current
+            ? Date.now() - playStartTimeRef.current
+            : 0
+          if (playDuration >= MIN_PLAY_MS) {
+            if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
+            setPendingRoundCompletion(true)
+            silenceTimerRef.current = setTimeout(() => {
+              setPendingRoundCompletion(false)
+              playStartTimeRef.current = null
+              const nextRound = currentRoundRef.current + 1
+              setCurrentRound(nextRound)
+              if (nextRound >= (tasks[currentIndexRef.current] as { rounds: number }).rounds) {
+                advanceTask()
+              }
+            }, SILENCE_TO_COMPLETE_MS)
+          }
         }
         wasPlayingRef.current = isPlaying
       }
@@ -126,7 +149,9 @@ export function usePracticeSession(tasks: PracticeTask[]): UsePracticeSessionRet
   useEffect(() => {
     setElapsedSeconds(0)
     setCurrentRound(0)
+    setPendingRoundCompletion(false)
     wasPlayingRef.current = false
+    playStartTimeRef.current = null
   }, [currentIndex])
 
   // Cleanup on unmount
@@ -144,9 +169,11 @@ export function usePracticeSession(tasks: PracticeTask[]): UsePracticeSessionRet
     elapsedSeconds,
     remainingSeconds,
     currentRound,
+    pendingRoundCompletion,
     onAudioChanged,
     skipTask,
     isComplete,
     summary,
   }
 }
+

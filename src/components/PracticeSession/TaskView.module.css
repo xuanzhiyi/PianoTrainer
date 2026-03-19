@@ -110,6 +110,12 @@
   border: 1px solid rgba(44, 62, 80, 0.12);
 }
 
+.statusPending {
+  background: rgba(244, 165, 130, 0.12);
+  color: #c06030;
+  border: 1px solid rgba(244, 165, 130, 0.4);
+}
+
 .skipBtn {
   background: none;
   border: 1px solid rgba(44, 62, 80, 0.2);

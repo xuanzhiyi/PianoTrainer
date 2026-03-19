@@ -66,6 +66,7 @@ export function PracticeSession({ tasks, onComplete }: PracticeSessionProps) {
             task={currentTask}
             currentRound={session.currentRound}
             isPlaying={audio.isPlaying}
+            pendingRoundCompletion={session.pendingRoundCompletion}
             onSkip={session.skipTask}
           />
         )}

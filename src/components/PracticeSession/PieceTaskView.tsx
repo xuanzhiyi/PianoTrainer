@@ -5,11 +5,26 @@ interface PieceTaskViewProps {
   task: PieceTask
   currentRound: number
   isPlaying: boolean
+  pendingRoundCompletion: boolean
   onSkip: () => void
 }
 
-export function PieceTaskView({ task, currentRound, isPlaying, onSkip }: PieceTaskViewProps) {
+export function PieceTaskView({ task, currentRound, isPlaying, pendingRoundCompletion, onSkip }: PieceTaskViewProps) {
   const progress = task.rounds > 0 ? currentRound / task.rounds : 0
+
+  const statusClass = isPlaying
+    ? styles.statusPlaying
+    : pendingRoundCompletion
+    ? styles.statusPending
+    : styles.statusPaused
+
+  const statusText = isPlaying
+    ? '▶ Playing'
+    : pendingRoundCompletion
+    ? '⏳ Finishing round…'
+    : currentRound === 0
+    ? '⏸ Start playing to begin'
+    : '⏸ Play through the piece'
 
   return (
     <div className={styles.taskCard}>
@@ -30,12 +45,8 @@ export function PieceTaskView({ task, currentRound, isPlaying, onSkip }: PieceTa
         />
       </div>
 
-      <div className={`${styles.statusBadge} ${isPlaying ? styles.statusPlaying : styles.statusPaused}`}>
-        {isPlaying
-          ? '▶ Playing'
-          : currentRound === 0
-          ? '⏸ Start playing to begin'
-          : '⏸ Stop playing to complete a round'}
+      <div className={`${styles.statusBadge} ${statusClass}`}>
+        {statusText}
       </div>
 
       <button className={styles.skipBtn} onClick={onSkip}>
